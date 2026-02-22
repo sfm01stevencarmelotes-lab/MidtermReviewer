@@ -23,12 +23,6 @@
             line-height: 1.5;
         }
 
-        /* Accessibility: Focus styles */
-        :focus {
-            outline: 3px solid var(--secondary);
-            outline-offset: 2px;
-        }
-
         header {
             background: var(--primary);
             color: var(--white);
@@ -38,7 +32,7 @@
 
         main {
             max-width: 800px;
-            margin: 2rem auto;
+            margin: 1rem auto;
             padding: 1rem;
         }
 
@@ -49,11 +43,8 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        h1, h2 { margin-top: 0; }
-
         .hidden { display: none !important; }
 
-        /* Form Elements */
         label { display: block; margin-top: 1rem; font-weight: bold; }
         
         select, input, .btn {
@@ -75,14 +66,13 @@
             cursor: pointer;
             font-weight: bold;
             text-transform: uppercase;
-            transition: background 0.2s;
+            margin-top: 1rem;
         }
 
         .btn:hover { background: #1e6fa8; }
         .btn-danger { background: var(--danger); }
         .btn-ghost { background: #657b83; margin-top: 2rem; }
 
-        /* Quiz Layout */
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -90,6 +80,7 @@
             padding: 1rem;
             border-radius: 4px;
             margin-bottom: 1rem;
+            font-weight: bold;
         }
 
         .option-btn {
@@ -102,14 +93,12 @@
             margin-bottom: 0.5rem;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 0.95rem;
         }
 
-        .option-btn:hover:not([disabled]) { border-color: var(--secondary); }
-        
         .correct { background: var(--success) !important; color: white; border-color: var(--success); }
         .wrong { background: var(--danger) !important; color: white; border-color: var(--danger); }
 
-        /* Table Design */
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
@@ -119,8 +108,7 @@
         .top-rank { background: #fffde7 !important; font-weight: bold; }
 
         @media (max-width: 600px) {
-            main { margin: 1rem; }
-            .quiz-header { flex-direction: column; gap: 0.5rem; }
+            .quiz-header { flex-direction: column; text-align: center; gap: 0.5rem; }
         }
     </style>
 </head>
@@ -128,83 +116,72 @@
 
 <header>
     <h1>SFM-CHReviewerMidTerm</h1>
-    <p>Section: PHAREZ | Study Portal</p>
+    <p>Section: PHAREZ | Full Reviewer</p>
 </header>
 
 <main>
     <!-- VIEW: LOGIN -->
     <section id="login-view" class="card">
         <h2>Student Access</h2>
-        <form id="login-form">
-            <label for="player-name">Select your Name:</label>
-            <select id="player-name" required>
-                <option value="">-- Select from Roster --</option>
-                <option>Almario</option> <option>Amandoron</option> <option>Andres</option>
-                <option>Borja</option> <option>Carmelotes</option> <option>De Guzman</option>
-                <option>Del Rosario</option> <option>Florentino</option> <option>Simbajon</option>
-                <option>Solidum</option> <option>Soriano</option> <option>Trespeces</option>
-                <option>Trinidad</option> <option>Ureta</option> <option>Zambale</option>
-            </select>
+        <label for="player-name">Select your Name:</label>
+        <select id="player-name">
+            <option value="">-- Select Student --</option>
+            <option>Almario</option> <option>Amandoron</option> <option>Andres</option>
+            <option>Borja</option> <option>Carmelotes</option> <option>De Guzman</option>
+            <option>Del Rosario</option> <option>Florentino</option> <option>Simbajon</option>
+            <option>Solidum</option> <option>Soriano</option> <option>Trespeces</option>
+            <option>Trinidad</option> <option>Ureta</option> <option>Zambale</option>
+        </select>
 
-            <label for="section-fixed">Section:</label>
-            <input type="text" id="section-fixed" value="PHAREZ" readonly>
+        <label for="section-fixed">Section:</label>
+        <input type="text" id="section-fixed" value="PHAREZ" readonly>
 
-            <button type="button" class="btn" onclick="startQuiz()">Start Reviewer</button>
-        </form>
-        <button class="btn btn-ghost" onclick="showView('admin-login-view')">Admin Login</button>
+        <button class="btn" onclick="startQuiz()">Start 77-Question Review</button>
+        <button class="btn btn-ghost" onclick="showView('admin-login-view')">Admin View</button>
     </section>
 
     <!-- VIEW: QUIZ -->
     <section id="quiz-view" class="card hidden">
         <div class="quiz-header">
-            <span id="progress" aria-live="polite">Question 1/20</span>
-            <span id="score-live" aria-live="polite">Score: 0</span>
+            <span id="progress">Question 1/77</span>
+            <span id="score-live">Score: 0</span>
         </div>
         <p id="cat-label" style="color: var(--secondary); font-weight: bold; font-size: 0.8rem;"></p>
         <h2 id="question-text">Question loading...</h2>
-        <div id="options-list" role="group" aria-label="Answer options"></div>
+        <div id="options-list"></div>
         <button id="next-btn" class="btn hidden" onclick="loadQuestion()">Next Question &rarr;</button>
     </section>
 
-    <!-- VIEW: RESULTS & RANKINGS -->
+    <!-- VIEW: RESULTS -->
     <section id="results-view" class="card hidden">
-        <h2>Performance Summary</h2>
-        <p id="final-result-msg" style="font-size: 1.2rem; text-align: center;"></p>
+        <h2>Review Finished!</h2>
+        <p id="final-result-msg" style="font-size: 1.2rem; text-align: center; font-weight: bold;"></p>
         
-        <hr aria-hidden="true">
-        
-        <h3>Top 15 Class Rankings (PHAREZ)</h3>
+        <hr>
+        <h3>PHAREZ Ranking Board</h3>
         <div class="table-container">
             <table>
                 <thead>
-                    <tr>
-                        <th scope="col">Rank</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Best Score</th>
-                    </tr>
+                    <tr><th>Rank</th><th>Name</th><th>Highest Score</th></tr>
                 </thead>
-                <tbody id="ranking-table-body">
-                    <!-- Rankings load here -->
-                </tbody>
+                <tbody id="ranking-table-body"></tbody>
             </table>
         </div>
-        <button class="btn" onclick="location.reload()" style="margin-top: 2rem;">Retake Quiz</button>
+        <button class="btn" onclick="resetApp()">Back to Main Page</button>
     </section>
 
     <!-- VIEW: ADMIN LOGIN -->
     <section id="admin-login-view" class="card hidden">
         <h2>Admin Access</h2>
-        <label for="admin-pass">Enter Admin Password:</label>
-        <input type="password" id="admin-pass">
+        <input type="password" id="admin-pass" placeholder="Password">
         <button class="btn" onclick="doAdminLogin()">Login</button>
-        <button class="btn btn-ghost" onclick="showView('login-view')">Cancel</button>
+        <button class="btn btn-ghost" onclick="showView('login-view')">Back</button>
     </section>
 
     <!-- VIEW: ADMIN PANEL -->
     <section id="admin-panel" class="card hidden">
-        <h2>Admin Dashboard</h2>
-        <button class="btn btn-danger" onclick="resetDatabase()">Clear All Scores</button>
-        <h3>Attempt History</h3>
+        <h2>Admin Panel</h2>
+        <button class="btn btn-danger" onclick="resetDatabase()">Clear All Records</button>
         <div class="table-container">
             <table id="logs-table">
                 <thead><tr><th>Student</th><th>Score</th><th>Date</th></tr></thead>
@@ -216,9 +193,9 @@
 </main>
 
 <script>
-    // FULL DATABASE OF 77 QUESTIONS
+    // FULL 77 QUESTIONS DATABASE
     const database = [
-        // QUIZ 1
+        // QUIZ 1 (30 Questions)
         {q:"Acculturation", a:"Cultural exchange", cat:"Quiz 1"},
         {q:"Integration", a:"Minor culture gets cultures in a major culture", cat:"Quiz 1"},
         {q:"Assimilation", a:"completely leaves the original culture", cat:"Quiz 1"},
@@ -230,95 +207,101 @@
         {q:"Gregory the Great", a:"First monk to become pope, founder of Medieval Papacy", cat:"Quiz 1"},
         {q:"Monks", a:"separate from society, dedicated to religious devotion and spiritual growth", cat:"Quiz 1"},
         {q:"Jihad", a:"Holy war, concept of Islam: military efforts", cat:"Quiz 1"},
-        {q:"Patrick", a:"Apostle of Ireland, led the cultural advancement in Ireland", cat: "Quiz 1"},
-        {q:"Paulician Sect", a:"Adhered to dualism, high regard to the Epistle of Apostle Paul", cat: "Quiz 1"},
-        {q:"Imperialism", a:"extending nations power", cat: "Quiz 1"},
-        {q:"Merovindian Dynasty", a:"First ruling family of the Franks, Germanic people, powerful in western Europe", cat: "Quiz 1"},
-        {q:"The Mayor of the Palace", a:"power behind the throne in the Frankish Kingdom", cat: "Quiz 1"},
-        {q:"Charlamagne", a:"Son of Pepin the short, Imperator Romanorum in the west", cat: "Quiz 1"},
-        {q:"Pepin the Great", a:"ended the Merovingian Dynasty, First Carolingian King", cat: "Quiz 1"},
-        {q:"Donation of Constantine", a:"forgery/false, a false decretal", cat: "Quiz 1"},
-        {q:"Pseudo-Isidorian/False Decretals", a:"forged canon laws", cat: "Quiz 1"},
-        {q:"Primus inter pares", a:"first among equals, a title used by bishops or popes", cat: "Quiz 1"},
-        {q:"Missi Dominici", a:"spies, guards of Frankish Kings", cat: "Quiz 1"},
-        {q:"Anarchy", a:"chaos, society without organized authority", cat: "Quiz 1"},
-        {q:"Holy Roman Empire", a:"consist of kingdoms, principalities, and cities. Political entity", cat: "Quiz 1"},
-        {q:"Renaissance", a:"rebirth, gap between Middle Age and Modernity, in Italy", cat: "Quiz 1"},
-        {q:"Nominal Catholicism", a:"Catholic based tradition, culture, heritage to Church doctrine", cat: "Quiz 1"},
-        {q:"Haji", a:"title to a Muslim who completed hajj", cat: "Quiz 1"},
-        {q:"Charles Martels", a:"won the war at Battle of Tours", cat: "Quiz 1"},
-        {q:"Venerable Bede", a:"The Father of English History", cat: "Quiz 1"},
-        {q:"Merovindian", a:"set of kings, Long-haired Kings", cat: "Quiz 1"},
+        {q:"Patrick", a:"Apostle of Ireland, led the cultural advancement in Ireland", cat:"Quiz 1"},
+        {q:"Paulician Sect", a:"Adhered to dualism, high regard to the Epistle of Apostle Paul", cat:"Quiz 1"},
+        {q:"Imperialism", a:"extending nations power", cat:"Quiz 1"},
+        {q:"Merovindian Dynasty", a:"First ruling family of the Franks, Germanic people, powerful in western Europe", cat:"Quiz 1"},
+        {q:"The Mayor of the Palace", a:"power behind the throne in the Frankish Kingdom", cat:"Quiz 1"},
+        {q:"Charlamagne", a:"Son of Pepin the short, Imperator Romanorum( Emperor of the Romans) in the west", cat:"Quiz 1"},
+        {q:"Pepin the Great", a:"ended the Merovingian Dynasty, First Carolingian King", cat:"Quiz 1"},
+        {q:"Donation of Constantine", a:"forgery/false, a false decretal", cat:"Quiz 1"},
+        {q:"Pseudo-Isidorian/False Decretals", a:"forged canon laws", cat:"Quiz 1"},
+        {q:"Primus inter pares", a:"first among equals, a title used by bishops or popes", cat:"Quiz 1"},
+        {q:"Missi Dominici", a:"spies, guards of Frankish Kings", cat:"Quiz 1"},
+        {q:"Anarchy", a:"chaos, society without organized authority", cat:"Quiz 1"},
+        {q:"Holy Roman Empire", a:"consist of kingdoms, principalities, and cities. Political entity", cat:"Quiz 1"},
+        {q:"Renaissance", a:"rebirth, gap between Middle Age and Modernity, in Italy", cat:"Quiz 1"},
+        {q:"Nominal Catholicism", a:"Catholic based tradition, culture, heritage to Church doctrine", cat:"Quiz 1"},
+        {q:"Haji", a:"title to a Muslim who completed hajj ( the annual pilgrimage to Mecca)", cat:"Quiz 1"},
+        {q:"Charles Martels", a:"won the war at Battle of Tours", cat:"Quiz 1"},
+        {q:"Venerable Bede", a:"The Father of English History", cat:"Quiz 1"},
+        {q:"Merovindian", a:"set of kings, Long-haired Kings", cat:"Quiz 1"},
 
-        // QUIZ 2
-        {q:"Lay Investiture", a:"a practice where a layman (king) invested church officials", cat: "Quiz 2"},
-        {q:"Innocent III", a:"Apex of Papacy", cat: "Quiz 2"},
-        {q:"Feudalism", a:"land for loyalty deal, a system worked like a pyramid", cat: "Quiz 2"},
-        {q:"Great Schism", a:"the East-West Schism (Rome/West vs. Constantinople/East)", cat: "Quiz 2"},
-        {q:"Weak Heirs", a:"1st factor for Carolingian downfall, not politically genius", cat: "Quiz 2"},
-        {q:"Germanic Concept of Inheritance", a:"land/wealth were inherited equally by male heirs/sons", cat: "Quiz 2"},
-        {q:"The Rise of Feudalism", a:"3rd factor for carolingian downfall", cat: "Quiz 2"},
-        {q:"Vassal", a:"a person pledge loyalty to higher ranking lords", cat: "Quiz 2"},
-        {q:"The Vikings-Slav-Magyar Invasions", a:"masters of the sea-mass migration, the final blow", cat: "Quiz 2"},
-        {q:"Otto", a:"German king, saved/restored the Holy Roman Empire", cat: "Quiz 2"},
-        {q:"Simony", a:"buying/selling church offices", cat: "Quiz 2"},
-        {q:"Nepotism", a:"Popes/kings giving jobs, titles, lands to relatives", cat: "Quiz 2"},
-        {q:"Dictatus Papae", a:"Pope is supreme in the Church, papal power", cat: "Quiz 2"},
-        {q:"Transubstantiation", a:"in the mass, bread and wine turn into actual body of Christ", cat: "Quiz 2"},
-        {q:"Cluny abbot", a:"Head of the monastery in Cluney, reports directly to popes", cat: "Quiz 2"},
-        {q:"Vemus Papam", a:"“We have a Pope”, announcement follows a white smoke", cat: "Quiz 2"},
-        {q:"Gregory VII/Hildebrand", a:"cleanse corruption, wrote Dictatus Papae, Excommunicated Henry IV", cat: "Quiz 2"},
-        {q:"Predestination", a:"doctrine where God already decided who goes to heaven or hell", cat: "Quiz 2"},
-        {q:"Interdict", a:"All sacraments were suspended in a country", cat: "Quiz 2"},
-        {q:"Cluniac Reformation", a:"Cleanses the corruption in the Church, strict doctrines", cat: "Quiz 2"},
-        {q:"Papal Infaliability", a:"popes dont have accountability to laws", cat: "Quiz 2"},
-        {q:"Excommunication", a:"a pope excludes a person from a community/church", cat: "Quiz 2"},
-        {q:"Boniface VIII", a:"lowest of papacy, reason for Babylonian captivity", cat: "Quiz 2"},
-        {q:"Carolingian", a:"descendants of Charles Martel", cat: "Quiz 2"},
+        // QUIZ 2 (24 Questions)
+        {q:"Lay Investiture", a:"a practice where a layman( king/emperor) chose(invested) church officials: bishops, abbots", cat:"Quiz 2"},
+        {q:"Innocent III", a:"Apex of Papacy", cat:"Quiz 2"},
+        {q:"Feudalism", a:"land for loyalty deal, a system worked like a pyramid(King-Noble-Knights-Peasants/Serfs)", cat:"Quiz 2"},
+        {q:"Great Schism", a:"the East-West Schism (Rome/West vs. Constantinople/East)", cat:"Quiz 2"},
+        {q:"Weak Heirs", a:"1st factor for Carolingian downfall, not politically genius, no ability to unify the Franks", cat:"Quiz 2"},
+        {q:"Germanic Concept of Inheritance", a:"a father died? His land/wealth were inherited equally by his make heirs/sons", cat:"Quiz 2"},
+        {q:"The Rise of Feudalism", a:"3rd factor for carolingian downfall", cat:"Quiz 2"},
+        {q:"Vassal", a:"a person pledge loyalty to higher ranking lords", cat:"Quiz 2"},
+        {q:"The Vikings-Slav-Magyar Invasions", a:"masters of the sea-mass migration-horseback riders, (coupe de grace/ the final blow)", cat:"Quiz 2"},
+        {q:"Otto", a:"German king, saved/restored the Holy Roman Empire", cat:"Quiz 2"},
+        {q:"Simony", a:"buying/selling church offices", cat:"Quiz 2"},
+        {q:"Nepotism", a:"Popes/kings giving jobs, titles, lands to relatives", cat:"Quiz 2"},
+        {q:"Dictatus Papae", a:"Pope is supreme in the Church, papal power", cat:"Quiz 2"},
+        {q:"Transubstantiation", a:"in the mass, bread and wine turn into actual body of Christ", cat:"Quiz 2"},
+        {q:"Cluny abbot", a:"Head of the monastery in Cluney, France, reports directly to popes/kings", cat:"Quiz 2"},
+        {q:"Vemus Papam", a:"“We have a Pope”, announcement follows a white smoke", cat:"Quiz 2"},
+        {q:"Gregory VII/Hildebrand", a:"cleanse corruption inside the Church, wrote Dictatus Papae, Excommunicated Henry IV", cat:"Quiz 2"},
+        {q:"Predestination", a:"a doctrine where God already decided who go to heaven, who go to Hell", cat:"Quiz 2"},
+        {q:"Interdict", a:"All sacraments were suspended in a country", cat:"Quiz 2"},
+        {q:"Cluniac Reformation", a:"Cleanses the corruption in the Church, strict following doctrines", cat:"Quiz 2"},
+        {q:"Papal Infaliability", a:"popes dont have aciuntability to laws, authority to all", cat:"Quiz 2"},
+        {q:"Excommunicated/Excommunication", a:"a pope excludes a person from a community/church", cat:"Quiz 2"},
+        {q:"Boniface VIII", a:"lowest of papacy, one of the reason the Church was in the “Babylonian captivity of the Papacy”", cat:"Quiz 2"},
+        {q:"Carolingian", a:"descendants of Charles Martel", cat:"Quiz 2"},
 
-        // QUIZ 3
-        {q:"Thomas Aquinas", a:"Angelic Doctor, Dominican Monk, Dumb Ox", cat: "Quiz 3"},
-        {q:"Crusades", a:"religious military movements to recover Holy Land from Muslims", cat: "Quiz 3"},
-        {q:"Cathari", a:"the pure ones, the Churchs ultimate Enemy, rejected sacraments", cat: "Quiz 3"},
-        {q:"Nominalism", a:"Denies universals (abstract categories)", cat: "Quiz 3"},
-        {q:"Liturgy", a:"public worship, act of entire religious community", cat: "Quiz 3"},
-        {q:"Aristotle", a:"Student of Plato, The Philosopher, Deductive thinking", cat: "Quiz 3"},
-        {q:"University of Paris", a:"Mother of Universities", cat: "Quiz 3"},
-        {q:"Humanism", a:"intellectual movement focused on grammar, rhetoric, history, poetry", cat: "Quiz 3"},
-        {q:"Individualism", a:"philosophy prioritizing independence and rights of an individual", cat: "Quiz 3"},
-        {q:"Secularization", a:"religion loses government/law control, becomes personal choice", cat: "Quiz 3"},
-        {q:"Mysticism", a:"Personal connection with the Divine/God", cat: "Quiz 3"},
-        {q:"John Wycliffe", a:"The Morning Star of the Reformation", cat: "Quiz 3"},
-        {q:"Petrarch", a:"Italian poet, First Modern Man, First Humanist", cat: "Quiz 3"},
-        {q:"Desiderius Erasmus", a:"The greatest Representative of the Renaissance outside Italy", cat: "Quiz 3"},
-        {q:"Babylonian Captivity of the Papacy", a:"popes resided in Avignon, France instead of Rome", cat: "Quiz 3"},
-        {q:"John Hus", a:"burned at the stake, Bohemian reformer", cat: "Quiz 3"},
-        {q:"Penance", a:"a sacrament, an act of self-punishment", cat: "Quiz 3"},
-        {q:"Lord’s Supper", a:"consuming bread and wine (transubstantiation)", cat: "Quiz 3"},
-        {q:"Unction of the Sick", a:"Last Rites, provide spiritual health/peace", cat: "Quiz 3"},
-        {q:"Infant Baptism", a:"baptizing infants to wash away Original sin", cat: "Quiz 3"},
-        {q:"Marriage", a:"likened to a union of Christ and His Church", cat: "Quiz 3"},
-        {q:"Confirmation", a:"laying of hands, anointing, sealing of the Holy Spirit", cat: "Quiz 3"},
-        {q:"Mariolatry", a:"Veneration/worship of Mary", cat: "Quiz 3"}
+        // QUIZ 3 (23 Questions)
+        {q:"Thomas Aquinas", a:"Angelic Doctor/Doctor Angelious, Dominican Monk, Dumb Ox(Fat, Quiet)", cat:"Quiz 3"},
+        {q:"Crusades", a:"a series of religious military movements to recover the Holy Land from Muslims", cat:"Quiz 3"},
+        {q:"Cathari", a:"the pure ones, the Churchs ultimate Enemy, rejected sacraments", cat:"Quiz 3"},
+        {q:"Nominalism", a:"Denies universals(abstract categories: humanity)", cat:"Quiz 3"},
+        {q:"Liturgy", a:"public worship, act of entire religious community", cat:"Quiz 3"},
+        {q:"Aristotle", a:"Student of Plato, The Philosopher, Deductive thinking(his writings)", cat:"Quiz 3"},
+        {q:"University of Paris", a:"Mother of Universities", cat:"Quiz 3"},
+        {q:"Humanism", a:"intelectual movement focused on grammar, rhetoric, history, poetry, moral philosophy", cat:"Quiz 3"},
+        {q:"Individualism", a:"a social/ethical philosophy that prioritizes independence, autonomy(master of your own life), rights of an individual person", cat:"Quiz 3"},
+        {q:"Secularization", a:"religion loses goverment, law, education. Religion became a personal private choice", cat:"Quiz 3"},
+        {q:"Mysticism", a:"Personal connection with the Divine/God", cat:"Quiz 3"},
+        {q:"John Wycliffe", a:"The Morning Star of the Reformation, Doctor of Theology", cat:"Quiz 3"},
+        {q:"Petrarch", a:"An Italian poet, First Modern Man, First Hummanist", cat:"Quiz 3"},
+        {q:"Desiderius Erasmus", a:"The greatest Representative of the Rennaisance outside Italy", cat:"Quiz 3"},
+        {q:"Babylonian Captivity of the Papacy", a:"instead of residing in Rome, the popes resided in Avignon, France", cat:"Quiz 3"},
+        {q:"John Hus", a:"burned at the stake, Bohemian reformer", cat:"Quiz 3"},
+        {q:"Penance", a:"a sacrament, an act of self-punishment", cat:"Quiz 3"},
+        {q:"Lord’s Supper", a:"or Eucharist, consuming bread and wine(transubstantiation)", cat:"Quiz 3"},
+        {q:"Unction of the Sick", a:"or Last Rites, provide spiritual health, strength, peace, courage", cat:"Quiz 3"},
+        {q:"Infant Baptism", a:"baptizing infants, wash away Original sin", cat:"Quiz 3"},
+        {q:"Marriage", a:"or Matrimony, union of two people, likened to a union of Christ and His Church", cat:"Quiz 3"},
+        {q:"Confirmation", a:"laying of hands of Bishops, anointing with oil, sealing of the Holy Spirit", cat:"Quiz 3"},
+        {q:"Mariolatry", a:"Veneration/worship of Mary", cat:"Quiz 3"}
     ];
 
     let player = { name: "", score: 0 };
     let quizPool = [];
     let qIdx = 0;
-    let records = JSON.parse(localStorage.getItem('pharez_data_v3')) || [];
+    let records = JSON.parse(localStorage.getItem('pharez_midterm_db')) || [];
 
     function showView(id) {
         document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
     }
 
+    function resetApp() {
+        document.getElementById('player-name').value = "";
+        showView('login-view');
+    }
+
     function startQuiz() {
         const name = document.getElementById('player-name').value;
-        if(!name) { alert("Please select your name."); return; }
+        if(!name) { alert("Please select your name first."); return; }
         
         player = { name: name, score: 0, section: "PHAREZ" };
         qIdx = 0;
-        quizPool = [...database].sort(() => Math.random() - 0.5).slice(0, 20);
+        // Shuffle ALL 77 questions
+        quizPool = [...database].sort(() => Math.random() - 0.5);
         
         showView('quiz-view');
         loadQuestion();
@@ -331,8 +314,8 @@
         document.getElementById('next-btn').classList.add('hidden');
         document.getElementById('progress').innerText = `Question ${qIdx + 1} of ${quizPool.length}`;
         document.getElementById('score-live').innerText = `Score: ${player.score}`;
-        document.getElementById('cat-label').innerText = data.cat.toUpperCase();
-        document.getElementById('question-text').innerText = `What is the definition of: "${data.q}"?`;
+        document.getElementById('cat-label').innerText = data.cat;
+        document.getElementById('question-text').innerText = `Define: "${data.q}"`;
 
         let options = [data.a];
         while(options.length < 4) {
@@ -369,9 +352,9 @@
 
     function endQuiz() {
         records.push({ ...player, date: new Date().toLocaleDateString() });
-        localStorage.setItem('pharez_data_v3', JSON.stringify(records));
+        localStorage.setItem('pharez_midterm_db', JSON.stringify(records));
         
-        document.getElementById('final-result-msg').innerText = `${player.name}, your final score is ${player.score} / 20.`;
+        document.getElementById('final-result-msg').innerText = `${player.name}, you scored ${player.score} out of 77!`;
         
         updateRankings();
         showView('results-view');
@@ -391,7 +374,7 @@
             <tr class="${i === 0 && r.score > 0 ? 'top-rank' : ''}">
                 <td>${i+1}</td>
                 <td>${r.name}</td>
-                <td>${r.score} / 20</td>
+                <td>${r.score} / 77</td>
             </tr>
         `).join('');
     }
@@ -401,15 +384,17 @@
             const body = document.querySelector('#logs-table tbody');
             body.innerHTML = records.map(r => `<tr><td>${r.name}</td><td>${r.score}</td><td>${r.date}</td></tr>`).reverse().join('');
             showView('admin-panel');
-        } else { alert("Access Denied."); }
+        } else { alert("Wrong Password."); }
     }
 
     function resetDatabase() {
-        if(confirm("Erase all data?")) {
-            localStorage.removeItem('pharez_data_v3');
-            location.reload();
+        if(confirm("Are you sure you want to delete all student records?")) {
+            localStorage.removeItem('pharez_midterm_db');
+            records = [];
+            updateRankings();
+            alert("Database Cleared.");
         }
     }
 </script>
 </body>
-  </html>
+</html>
